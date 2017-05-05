@@ -1,5 +1,5 @@
-hash: 54382de2ab6e9c54a825f5b48fa5af6148779bc85a22822e89d04cd82a903004
-updated: 2017-04-21T17:54:52.648623903+02:00
+hash: f79f026ac0c1c665f9b5233f4ead5a3b3a927a057e88d89d47005284a469bb8d
+updated: 2017-05-05T16:55:40.788603984+02:00
 imports:
 - name: github.com/appc/spec
   version: ba99d6b8ccbbed2942e53eb5395fddae113cdf8e
@@ -60,7 +60,7 @@ imports:
 - name: github.com/go-openapi/swag
   version: 96d7b9ebd181a1735a1c9ac87914f2b32fbf56c9
 - name: github.com/gocql/gocql
-  version: 3ac1aabebaf2705c6f695d4ef2c25ab6239e88b3
+  version: f8b6dcaf4f8a770652c11e7e94b517fcb706fce8
   subpackages:
   - internal/lru
   - internal/murmur

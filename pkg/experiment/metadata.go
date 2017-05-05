@@ -140,10 +140,11 @@ func sslOptions(config MetadataConfig) *gocql.SslOptions {
 	return sslOptions
 }
 
-func (m *Metadata) createConfig() *gocql.ClusterConfig {
-	// TODO(niklas): make consistency configurable.
+// connect creates a session to the Cassandra cluster. This function should only be called once.
+func (m *Metadata) connect() *gocql.ClusterConfig {
 	cluster := gocql.NewCluster(m.config.CassandraAddress)
 
+	// TODO(niklas): make consistency configurable.
 	cluster.Consistency = gocql.LocalOne
 	cluster.SerialConsistency = gocql.LocalSerial
 
@@ -157,7 +158,7 @@ func (m *Metadata) createConfig() *gocql.ClusterConfig {
 }
 
 func (m *Metadata) createKeyspace() error {
-	config := m.createConfig()
+	config := m.connect()
 	session, err := config.CreateSession()
 	defer session.Close()
 	if err != nil {
@@ -172,7 +173,7 @@ func (m *Metadata) createKeyspace() error {
 
 // Connect creates a session to the Cassandra cluster. This function should only be called once.
 func (m *Metadata) Connect() error {
-	cluster := m.createConfig()
+	cluster := m.connect()
 	cluster.Keyspace = m.config.CassandraKeyspaceName
 
 	if m.config.CassandraUsername != "" && m.config.CassandraPassword != "" {

@@ -42,9 +42,20 @@ var CassandraSslCertPath = NewStringFlag("cassandra_ssl_cert_path", "Sets the cl
 // CassandraSslKeyPath sets the client private key, in case the cluster requires client verification.
 var CassandraSslKeyPath = NewStringFlag("cassandra_ssl_key_path", "Sets the client private key, in case the cluster requires client verification.", "")
 
-var CassandraPort = NewIntFlag("cassandra_port", "Port of Cassandra DB endpoint", 9042)
-var CassandraTimeout = NewIntFlag("cassandra_timeout", "query timeout for the publisher in seconds", 0)
-var CassandraInitialHostLookup = NewBoolFlag("cassandra_initial_host_loopup", "if false, driver won't attempt to get host info from Cassandra", true)
-var CassandraIgnorePeerAddr = NewBoolFlag("cassandra_ignore_peer_addr", "if true, doesn't resolve internal nodes addresses", false)
-var CassandraKeyspaceName = NewStringFlag("cassandra_keyspace_name", "keyspace name used by driver", "swan")
-var CassandraCreateKeyspace = NewBoolFlag("cassandra_create_keyspace", "attempt to create keyspace", false)
+// CassandraPort sets port of Cassandra DB endpoint.
+var CassandraPort = NewIntFlag("cassandra_port", "Port of Cassandra DB endpoint.", 9042)
+
+// CassandraTimeout sets query timeout for the publisher in seconds.
+var CassandraTimeout = NewIntFlag("cassandra_timeout", "Query timeout for the publisher in seconds.", 0)
+
+// CassandraInitialHostLookup sets that driver will attempt to get host info from Cassandra.
+var CassandraInitialHostLookup = NewBoolFlag("cassandra_initial_host_loopup", "If false, driver won't attempt to get host info from Cassandra.", true)
+
+// CassandraIgnorePeerAddr sets that driver won't resolve internal nodes addresses.
+var CassandraIgnorePeerAddr = NewBoolFlag("cassandra_ignore_peer_addr", "If true, doesn't resolve internal nodes addresses.", false)
+
+// CassandraKeyspaceName sets keyspace name used by driver.
+var CassandraKeyspaceName = NewStringFlag("cassandra_keyspace_name", "Keyspace name used by driver.", "swan")
+
+// CassandraCreateKeyspace sets that publisher will attempt to create keyspace
+var CassandraCreateKeyspace = NewBoolFlag("cassandra_create_keyspace", "Attempt to create keyspace.", false)

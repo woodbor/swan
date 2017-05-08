@@ -25,7 +25,7 @@ var CassandraPassword = NewStringFlag("cassandra_password", "The password which 
 
 // CassandraConnectionTimeout encodes the internal connection timeout for the publisher. Note that increasing this
 // value may increase the total connection time significantly, due to internal retry logic in the gocql library.
-var CassandraConnectionTimeout = NewDurationFlag("cassandra_timeout", "Timout for communication with Cassandra cluster.", 0)
+var CassandraConnectionTimeout = NewDurationFlag("cassandra_connection_timeout", "Timout for communication with Cassandra cluster.", 0)
 
 // CassandraSslEnabled determines whether the cassandra publisher should connect to the cluster over an SSL encrypted connection.
 var CassandraSslEnabled = NewBoolFlag("cassandra_ssl", "Determines whether the cassandra publisher should connect to the cluster over an SSL encrypted connection. Flags CassandraSslHostValidation, CassandraSslCAPath, CassandraSslCertPath and CassandraSslKeyPath should be set accordingly.", false)

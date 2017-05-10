@@ -33,6 +33,7 @@ import (
 	"github.com/intelsdi-x/swan/pkg/isolation"
 	"github.com/intelsdi-x/swan/pkg/snap/sessions/caffe"
 	"github.com/intelsdi-x/swan/pkg/snap/sessions/mutilate"
+	"github.com/intelsdi-x/swan/pkg/snap/sessions/rdt"
 	"github.com/intelsdi-x/swan/pkg/utils/err_collection"
 	"github.com/intelsdi-x/swan/pkg/utils/errutil"
 	"github.com/intelsdi-x/swan/pkg/utils/uuid"
@@ -142,6 +143,9 @@ func main() {
 	if includeBaselinePhaseFlag.Value() {
 		aggressors = append(aggressors, "")
 	}
+
+	rdtSession, err := rdt.NewSessionLauncherDefault()
+	errutil.CheckWithContext(err, "Cannot create rdt snap session")
 
 	// We need to calculate mask for all cache ways to be able to calculate non-overlapping cache partitions.
 	wholeCacheMask := 1<<(maxCacheWaysToAssign+minCacheWaysToAssign) - 1
@@ -259,10 +263,12 @@ func main() {
 							if err != nil {
 								return errors.Wrapf(err, "cannot launch aggressor snap session for %s", phaseName)
 							}
-							defer func() {
-								aggressorSnapHandle.Stop()
-							}()
+							defer aggressorSnapHandle.Stop()
 						}
+
+						rdtSessionHandle, err := rdtSession.LaunchSession(nil, snapTags)
+						errutil.PanicWithContext(err, "Cannot launch Snap RDT Collection session")
+						defer rdtSessionHandle.Stop()
 
 						logrus.Debugf("Launching Load Generator with BE cache mask: %b and HP cache mask: %b", beCacheMask, hpCacheMask)
 						loadGeneratorHandle, err := loadGenerator.Load(qps, loadDuration)
@@ -277,6 +283,9 @@ func main() {
 								return errors.Wrap(err, "stopping mutilate cluster errored")
 							}
 						}
+
+						err = rdtSessionHandle.Stop()
+						errutil.PanicWithContext(err, "cannot stop RDT Snap session")
 
 						if beHandle != nil {
 							err = beHandle.Stop()
